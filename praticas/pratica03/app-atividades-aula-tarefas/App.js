@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button ,StyleSheet, Text, View } from 'react-native';
-import { titulo } from './util';
-import titulo_padrao from './util';
+import { Button ,StyleSheet, Text, TextInput, View } from 'react-native';
+import { titulo, titulo_padrao } from './util';
+import { rotulo_btn_cadastro_meta, rotulo_input_meta, rotulo_listas_metas} from './mensagens';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>{titulo}</Text>
-      <Text style={{margin: 20}}>{titulo_padrao}</Text>
-      <Text styles={styles.text}>TESTE2</Text>
-      <Button title='Clique Aqui' />
-      <StatusBar style="auto" />
+    <View style={styles.mainContainer}> 
+      <TextInput style={[styles.padrao, styles.primari1]} placeholder={rotulo_input_meta}/>
+      <Button style={styles.padrao} title={rotulo_btn_cadastro_meta}/>
+      <Text style={styles.padrao}>{rotulo_listas_metas}</Text>
+      <StatusBar style="auto" />,
     </View>
   );
 }
@@ -22,13 +22,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
-  text: {
+
+  mainContainer:{
+    margin:30,
+  },
+
+  padrao:{
     margin: 20,
-    margin: int,
-    borderWidth: int,
-    borderColor: str,
-    padding: int,
+  },
+
+  primari1:{
+    borderColor:'#cccccc',
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: 'rgb(227, 228, 227)'
   }
 
 });
