@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, useColorScheme } from 'react-native';
-import { getTheme } from '../../constants/theme';
+import { StyleSheet, Text, View } from 'react-native';
+import { useAppTheme } from '../../store/theme-context';
 
 export default function DespesaSumario({ expenses, periodo }) {
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
 
   return (

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getTheme } from '../../constants/theme';
+import { useAppTheme } from '../../store/theme-context';
 
 export default function DespesaItem({ expense }) {
   const navigation = useNavigation();
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
 
   return (
     <Pressable

@@ -6,7 +6,8 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { useExpenses } from '../store/expenses-context';
-import { CATEGORIES, getTheme } from '../constants/theme';
+import { CATEGORIES } from '../constants/theme';
+import { useAppTheme } from '../store/theme-context';
 
 function validate(values) {
   const errors = {};
@@ -31,7 +32,7 @@ function validate(values) {
 export default function GerenciarDespesa({ route, navigation }) {
   const expenseId = route.params?.expenseId;
   const isEditing = !!expenseId;
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
   const { expenses, addExpense, updateExpense, deleteExpense } = useExpenses();
 
   const [form, setForm] = useState(() => {
@@ -154,7 +155,7 @@ export default function GerenciarDespesa({ route, navigation }) {
             value={form.date}
             mode="date"
             display={Platform.OS === 'ios' ? 'inline' : 'default'}
-            themeVariant={colors === getTheme('dark') ? 'dark' : 'light'}
+            themeVariant={scheme}
             onChange={(event, selected) => {
               if (Platform.OS === 'android') setShowPicker(false);
               if (event.type === 'set' && selected) handleChange('date', selected);

@@ -4,11 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import DespesaSaida from '../components/despesa/DespesaSaida';
 import { useExpenses } from '../store/expenses-context';
 import useDebounce from '../hooks/useDebounce';
-import { getTheme } from '../constants/theme';
+import { useAppTheme } from '../store/theme-context';
 
 export default function TodasDespesas() {
   const { expenses } = useExpenses();
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
 

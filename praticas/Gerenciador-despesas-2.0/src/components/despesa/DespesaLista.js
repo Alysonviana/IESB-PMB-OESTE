@@ -2,10 +2,10 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DespesaItem from './DespesaItem';
-import { getTheme } from '../../constants/theme';
+import { useAppTheme } from '../../store/theme-context';
 
 export default function DespesaLista({ expenses, header, emptyMessage }) {
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
 
   return (
     <FlatList

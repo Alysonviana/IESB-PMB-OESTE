@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import { View, useColorScheme } from 'react-native';
 import DespesaSaida from '../components/despesa/DespesaSaida';
 import { useExpenses } from '../store/expenses-context';
-import { getTheme } from '../constants/theme';
+import { useAppTheme } from '../store/theme-context';
 
 export default function DespesasRecentes() {
   const { expenses } = useExpenses();
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
 
   const recent = useMemo(() => {
     const limit = new Date();

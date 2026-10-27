@@ -1,27 +1,34 @@
 import React from 'react';
-import { Pressable, useColorScheme } from 'react-native';
+import { Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { ExpensesContextProvider } from './src/store/expenses-context';
+import { ThemeContextProvider, useAppTheme } from './src/store/theme-context';
 import TodasDespesas from './src/screens/TodasDespesas';
 import DespesasRecentes from './src/screens/DespesasRecentes';
 import GerenciarDespesa from './src/screens/GerenciarDespesa';
-import { getTheme } from './src/constants/theme';
+import ThemeToggle from './src/components/ThemeToggle';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
-  const colors = getTheme(useColorScheme());
+  const { colors } = useAppTheme();
   return (
     <Tab.Navigator
       screenOptions={({ navigation }) => ({
         tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.subtext,
+        headerLeft: () => <ThemeToggle />,
         headerRight: () => (
-          <Pressable onPress={() => navigation.navigate('GerenciarDespesa')} style={{ marginRight: 16 }}>
+          <Pressable
+            onPress={() => navigation.navigate('GerenciarDespesa')}
+            hitSlop={10}
+            style={{ marginRight: 16 }}
+          >
             <Ionicons name="add" size={28} color={colors.primary} />
           </Pressable>
         ),
@@ -47,12 +54,26 @@ function Tabs() {
   );
 }
 
-export default function App() {
-  const scheme = useColorScheme();
+function AppContent() {
+  const { scheme, colors } = useAppTheme();
+
+  const baseTheme = scheme === 'dark' ? DarkTheme : DefaultTheme;
+  const navTheme = {
+    ...baseTheme,
+    colors: {
+      ...baseTheme.colors,
+      primary: colors.primary,
+      background: colors.background,
+      card: colors.card,
+      text: colors.text,
+      border: colors.border,
+    },
+  };
+
   return (
-    <ExpensesContextProvider>
-      <StatusBar style="auto" />
-      <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <>
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+      <NavigationContainer theme={navTheme}>
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
           <Stack.Screen
@@ -62,6 +83,16 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </ExpensesContextProvider>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeContextProvider>
+      <ExpensesContextProvider>
+        <AppContent />
+      </ExpensesContextProvider>
+    </ThemeContextProvider>
   );
 }
